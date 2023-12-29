@@ -1,3 +1,6 @@
+--Triveni Ejamani--
+--Car Rental coding challenge--
+
 if exists (select * from sys.databases where name = 'CarRental')
 begin
 	drop database CarRental;
@@ -178,6 +181,7 @@ select Lease.* from Lease where endDate=(select max(endDate) from Lease )
 select * from Payment where year(transactionDate)='2023'
 
 --12. Retrieve customers who have not made any payments.
+	
 select Customer.*from Customer
  left  join Lease on Customer.customerID = Lease.customerID
  left  join Payment on Lease.leaseID = Payment.leaseID
@@ -185,6 +189,7 @@ where Payment.paymentID is null;
 
 
 --13. Retrieve Car Details and Their Total Payments.
+
 select Vehicle.*,SUM(Payment.amount) AS totalPayments from Vehicle
 left join Lease ON Vehicle.vehicleID = Lease.vehicleID
 left join Payment ON Lease.leaseID = Payment.leaseID
@@ -194,6 +199,7 @@ Vehicle.dailyRate, Vehicle.status, Vehicle.passengerCapacity, Vehicle.engineCapa
 
 
 --14. Calculate Total Payments for Each Customer.
+
 select Customer.*, sum(Payment.amount) as TotalPayments from Customer 
 left join Lease on Customer.customerID = Lease.customerID
 left join Payment on Lease.leaseID = Payment.leaseID
@@ -206,6 +212,7 @@ select Lease.*, Vehicle.* from Lease
 join Vehicle on Lease.vehicleID= Vehicle.vehicleID
 
 --16. Retrieve Details of Active Leases with Customer and Car Information.
+	
 select Lease.*,Vehicle .*, Customer.* from Lease 
 join Vehicle on Lease.vehicleID = Vehicle.vehicleID
 join Customer on Lease.customerID = Customer.customerID
@@ -214,6 +221,7 @@ where
 
 
 --17. Find the Customer Who Has Spent the Most on Leases.
+	
 select top 1 Customer.customerID,sum(Payment.amount) AS TotalSpentOnLeases from Customer
 join Lease on Customer.customerID = Lease.customerID
 join Payment on Lease.leaseID = Payment.leaseID
@@ -231,8 +239,8 @@ having SUM(P.amount) = (
 	join Payment P on L.leaseID = P.leaseID
 	group by C.customerID
 	order by SUM(P.amount) desc)
+	
 --18. List All Cars with Their Current Lease Information
-
 
 select Vehicle.*,Lease.* from Vehicle
 left join Lease on Vehicle.vehicleID = Lease.vehicleID
